@@ -8,7 +8,7 @@
 - Remove student
 
 Assignment = update only backend code (refactor with Prisma).
-Prisma and Prisma Client are installed.
+Prisma and Prisma Client are installed / DONE.
 Tables defined in seed.js are translated to Prisma schema.
 Database is synced with schema via Prisma Migrate.
 (seed.js) is refactored to work with Prisma Migrate.
