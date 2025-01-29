@@ -1,3 +1,23 @@
+# B36A
+
+- Register
+- Login
+- View students
+- Add student
+- Update student
+- Remove student
+
+Assignment = update only backend code (refactor with Prisma).
+Prisma and Prisma Client are installed.
+Tables defined in seed.js are translated to Prisma schema.
+Database is synced with schema via Prisma Migrate.
+(seed.js) is refactored to work with Prisma Migrate.
+Existing auth and api endpoints are refactored to use Prisma Client instead of SQL.
+
+Submit to GitHub.
+
+
+
 # Classroom Manager
 
 Classroom Manager is an SPA that allows instructors to effectively manage their student data. Once a user has successfully registered for an account and logged in, they will be given access to a platform that allows them to see their students, add new students, update existing students, and remove students.
