@@ -5,6 +5,7 @@
   "main": "server/index.js",
   "scripts": {
     "seed": "node server/db/seed.js",
+    "seed:prisma": "node server/db/prisma-seed.js",
     "client:dev": "vite serve client",
     "server:dev": "JWT=JWT node --watch server",
     "server:dev:windows": "set JWT=JWT && node --watch server",
