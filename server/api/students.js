@@ -14,7 +14,7 @@ router.use((req, res, next) => {
 router.get("/", async (req, res, next) => {
   try {
     const { rows: students } = await db.query(
-      "SELECT * FROM student WHERE instructorId = $1",
+      "SELECT * FROM student WHERE \"instructorId\" = $1",
       [req.user.id]
     );
     res.send(students);
