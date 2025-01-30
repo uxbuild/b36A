@@ -16,6 +16,8 @@ router.use((req, res, next) => {
 
 // Get all students
 router.get("/", async (req, res, next) => {
+  console.log('get ALL student for instructor..');
+  
   try {
     const students = await prisma.student.findMany({
       where: { instructorId: req.user.id },
@@ -45,6 +47,10 @@ router.get("/:id", async (req, res, next) => {
 
 // Create a new student
 router.post("/", async (req, res, next) => {
+  console.log('POST / , create new student');
+  console.log('req.body', req.body);
+  
+  
   try {
     const student = await prisma.student.create({
       data: {
