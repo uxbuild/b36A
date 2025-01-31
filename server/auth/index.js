@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const db = require("../db");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt"); 
 
 // prisma
 const { PrismaClient } = require("@prisma/client");
@@ -26,14 +27,19 @@ const prisma = new PrismaClient();
 // });
 router.post("/register", async (req, res, next) => {
   try {
+    const { username, password } = req.body;
+
+    // hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const instructor = await prisma.instructor.create({
       data: {
-        username: req.body.username,
-        password: req.body.password, // Ideally, hash this password before storing
+        username,
+        password: hashedPassword,
       },
     });
 
-    // Create a token with the instructor id
+    // create token
     const token = jwt.sign({ id: instructor.id }, process.env.JWT);
 
     res.status(201).send({ token });
@@ -64,20 +70,29 @@ router.post("/register", async (req, res, next) => {
 //     next(error);
 //   }
 // });
+
 router.post("/login", async (req, res, next) => {
   try {
+    const { username, password } = req.body;
+
+    // Find the instructor by username
     const instructor = await prisma.instructor.findFirst({
-      where: {
-        username: req.body.username,
-        password: req.body.password, // Ideally, verify hashed password
-      },
+      where: { username },
     });
 
+    // If no instructor found, return an error
     if (!instructor) {
       return res.status(401).send("Invalid login credentials.");
     }
 
-    // Create a token with the instructor id
+    // password compare w bcrypt
+    const passwordMatch = await bcrypt.compare(password, instructor.password);
+    
+    if (!passwordMatch) {
+      return res.status(401).send("Invalid login credentials.");
+    }
+
+    // create token
     const token = jwt.sign({ id: instructor.id }, process.env.JWT);
 
     res.send({ token });
@@ -85,6 +100,7 @@ router.post("/login", async (req, res, next) => {
     next(error);
   }
 });
+
 
 // Get the currently logged in instructor
 // router.get("/me", async (req, res, next) => {
